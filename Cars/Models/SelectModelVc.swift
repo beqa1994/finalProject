@@ -20,6 +20,7 @@ class SelectCar {
 class SelectModelVc: UIViewController, UITableViewDelegate, UITableViewDataSource, ModelsTableViewCellDelegate {
     
     
+    
     func addCar(cell: ModelsTableViewCell) {
         let index = selectTableView.indexPath(for: cell)
         var car = carModel[index!.row]
@@ -38,19 +39,47 @@ class SelectModelVc: UIViewController, UITableViewDelegate, UITableViewDataSourc
         selectTableView.reloadData()
     }
     
-   
+ 
     
     @IBOutlet weak var selectTableView: UITableView!
     
     var carModel = [SelectCar]()
     
     @IBAction func priceIsIncreasing(_ sender: UIButton) {
+        self.carModel.sort{(first: SelectCar, second: SelectCar) -> Bool in
+            return first.car.price < second.car.price
+        }
+        self.tableView.reloadData()
     }
     
-    @IBAction func priceDescending(_ sender: Any) {
+    @IBAction func priceDescending(_ sender: UIButton) {
+        self.carModel.sort{(first: SelectCar, second: SelectCar) -> Bool in
+            return first.car.price > second.car.price
+            
+        }
+        self.tableView.reloadData()
     }
     
     
+    @IBAction func sortAToZ(_ sender: UIButton) {
+        self.carModel.sort{(first: SelectCar, second: SelectCar) -> Bool in
+            return first.car.model < second.car.model
+        }
+        self.tableView.reloadData()
+    }
+
+    @IBAction func sortZToA(_ sender: UIButton) {
+        self.carModel.sort{(first: SelectCar, second: SelectCar) -> Bool in
+            return first.car.model > second.car.model
+        }
+        self.tableView.reloadData()
+    }
+    
+//        var itemSort = carModel
+//        itemSort.sort(by: { $0.model < $1.model})
+//        self.tableView.reloadData()
+    
+   
     
     @IBOutlet weak var makeName: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -68,13 +97,9 @@ class SelectModelVc: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
     
-    @IBOutlet weak var sortControl: UIButton!
     
-    @IBAction func sortAlphabet(_ sender: Any) {
-//        var itemSort = carModel
-//        itemSort.sort(by: { $0.model < $1.model})
-//        self.tableView.reloadData()
-    }
+    
+ 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return carModel.count
@@ -95,7 +120,7 @@ class SelectModelVc: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         
         
-      //  print("cell created----------------------",indexPath.row)
+      
         
         
         URLSession.shared.dataTask(with: NSURL(string: carsModels.car.img_url)! as URL, completionHandler: { (data, response, error) -> Void in
@@ -107,7 +132,7 @@ class SelectModelVc: UIViewController, UITableViewDelegate, UITableViewDataSourc
             DispatchQueue.main.async(execute: { () -> Void in
                 let image = UIImage(data: data!)
                 cell.modelsImage.image = image
-               // print("image assigned",indexPath.row)
+               
             })
             
         }).resume()

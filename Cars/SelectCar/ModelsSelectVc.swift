@@ -67,8 +67,7 @@ class ModelsSelectVc: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let myKeys = [String](self.carDictionary.keys).sorted()
         let myModels = myKeys[indexPath.row]
-        //cell.modelsIcon.image = UIImage.init(named:)
-       // print(models)
+        
         cell.modelsMake.text = myModels//.capitalized 
         cell.modelsIcon.image = UIImage.init(named: "\(myModels)_icon")
         
